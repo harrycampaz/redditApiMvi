@@ -40,6 +40,10 @@ dependencies {
 
     implementation(fileTree("dir" to "libs", "include" to  listOf("*.jar")))
 
+    // MODULE
+
+    implementation(AppModules.core)
+
     // Kotlin
     implementation (KotlinLibraries.kotlinStdLibrary)
 

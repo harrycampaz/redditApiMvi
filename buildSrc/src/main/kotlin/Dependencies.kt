@@ -1,3 +1,7 @@
+object AppModules{
+    const val core = ":core"
+}
+
 object AndroidLibraries {
     object Versions {
         const val core = "1.7.0"
