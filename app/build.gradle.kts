@@ -1,6 +1,10 @@
+
 plugins {
-    id ("com.android.application")
-    id ("kotlin-android")
+    id("com.android.application")
+    kotlin("android")
+    kotlin("kapt")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -33,11 +37,45 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.2")
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    implementation(fileTree("dir" to "libs", "include" to  listOf("*.jar")))
+
+    // Kotlin
+    implementation (KotlinLibraries.kotlinStdLibrary)
+
+    // Coroutines
+    implementation (KotlinLibraries.coroutinesCore)
+    implementation(KotlinLibraries.coroutinesAndroid)
+
+    // Android
+    implementation(AndroidLibraries.playCoreKtx)
+    implementation(AndroidLibraries.core)
+    implementation(AndroidLibraries.appCompat)
+    implementation(AndroidLibraries.constraintLayout)
+
+    // Material Design
+    implementation(AndroidLibraries.material)
+
+    // Navigation Components
+    implementation(AndroidLibraries.navigationFragment)
+    implementation(AndroidLibraries.navigationUi)
+
+    // Room and Architectural Components
+    implementation (PersistenceLibraries.roomRuntime)
+    implementation (PersistenceLibraries.roomKtx)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    kapt(PersistenceLibraries.xerialSqite)
+    kapt (PersistenceLibraries.roomCompiler)
+
+    // TEST
+
+    testImplementation (TestLibraries.truth)
+    testImplementation (TestLibraries.okhttp3Mockwebserver)
+    testImplementation (TestLibraries.mockk)
+    implementation (LogTools.timber)
+    testImplementation( TestLibraries.coroutines)
+    testImplementation (TestLibraries.jUnit)
+    androidTestImplementation (TestLibraries.androidJUnit)
 }
