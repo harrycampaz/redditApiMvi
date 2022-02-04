@@ -5,6 +5,7 @@ plugins {
     kotlin("kapt")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -33,6 +34,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -41,8 +47,7 @@ dependencies {
     implementation(fileTree("dir" to "libs", "include" to  listOf("*.jar")))
 
     // MODULE
-
-    implementation(AppModules.core)
+    implementation(project(AppModules.core))
 
     // Kotlin
     implementation (KotlinLibraries.kotlinStdLibrary)
@@ -70,9 +75,16 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+
     kapt(PersistenceLibraries.xerialSqite)
     kapt (PersistenceLibraries.roomCompiler)
 
+    // DI
+
+    implementation(DILibraries.daggerHilt)
+
+    implementation("com.google.dagger:hilt-android:2.28-alpha")
+    kapt ("com.google.dagger:hilt-android-compiler:2.28-alpha")
     // TEST
 
     testImplementation (TestLibraries.truth)
@@ -82,4 +94,9 @@ dependencies {
     testImplementation( TestLibraries.coroutines)
     testImplementation (TestLibraries.jUnit)
     androidTestImplementation (TestLibraries.androidJUnit)
+    androidTestImplementation (TestLibraries.mockitokotlin2)
+
+    implementation(ThirdLibraries.gson)
+    implementation(ThirdLibraries.retrofit)
+    implementation(ThirdLibraries.okhttp3)
 }

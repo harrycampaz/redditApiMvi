@@ -4,7 +4,7 @@ import com.harrycampaz.core.data.models.ChildrenModel
 import com.harrycampaz.core.data.models.DataModel
 import com.harrycampaz.core.data.models.DataPostsModel
 
-fun getFakeDataPostsModel(n: Int) = DataPostsModel(
+fun getFakeDataPostsModel(n: Int = 0) = DataPostsModel(
     author_fullname = "t2_p7o61 $n",
     title = "Sunday Rant/Rage",
     created_utc = 1643482364.0,

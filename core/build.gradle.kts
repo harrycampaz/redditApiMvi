@@ -36,9 +36,20 @@ dependencies {
     // Kotlin
     implementation (KotlinLibraries.kotlinStdLibrary)
 
+    // Network
+
+    implementation(ThirdLibraries.gson)
+    implementation(ThirdLibraries.retrofit)
+    implementation(ThirdLibraries.okhttp3)
+
     // Room
     implementation (PersistenceLibraries.roomRuntime)
     implementation (PersistenceLibraries.roomKtx)
     kapt(PersistenceLibraries.xerialSqite)
     kapt (PersistenceLibraries.roomCompiler)
+
+    // Test
+    testImplementation(TestLibraries.jUnit)
+
+    implementation(LogTools.timber)
 }

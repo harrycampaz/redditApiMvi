@@ -82,13 +82,15 @@ object TestLibraries {
 
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+
+    const val mockitokotlin2 = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
 object DILibraries {
     object Versions {
-        const val koin = "3.1.4"
+        const val hilt = "2.28-alpha"
     }
 
-    const val koin = "io.insert-koin:koin-android:${Versions.koin}"
+    const val daggerHilt = "com.google.dagger:hilt-android:${Versions.hilt}"
 }
 
 object LogTools {
@@ -102,9 +104,14 @@ object ThirdLibraries{
     object Versions {
         const val glide = "4.12.0"
         const val glideKpt = "4.11.0"
+        const val retrofit = "2.9.0"
+
     }
 
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glideKpt = "com.github.bumptech.glide:compiler:${Versions.glideKpt}"
 
+    const val retrofit ="com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    const val okhttp3= "com.squareup.okhttp3:logging-interceptor:4.9.0"
 }

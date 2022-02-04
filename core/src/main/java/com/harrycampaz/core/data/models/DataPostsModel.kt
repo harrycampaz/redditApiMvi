@@ -13,3 +13,8 @@ data class DataPostsModel(
 fun DataPostsModel.toEntity() = DataPostsEntity(
     author_fullname, title, created_utc, thumbnail, num_comments
 )
+
+fun List<ChildrenModel>.toListEntity(): List<DataPostsEntity> =
+    this.map {
+        it.data.toEntity()
+    }
