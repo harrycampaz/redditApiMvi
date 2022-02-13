@@ -82,9 +82,11 @@ dependencies {
     // DI
 
     implementation(DILibraries.daggerHilt)
+    kapt(DILibraries.daggerHiltkapt)
 
-    implementation("com.google.dagger:hilt-android:2.28-alpha")
-    kapt ("com.google.dagger:hilt-android-compiler:2.28-alpha")
+    // DI
+    implementation(DILibraries.koin)
+
     // TEST
 
     testImplementation (TestLibraries.truth)

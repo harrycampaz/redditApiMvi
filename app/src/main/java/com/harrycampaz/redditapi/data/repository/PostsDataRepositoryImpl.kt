@@ -5,8 +5,9 @@ import com.harrycampaz.redditapi.data.datasource.IRemotePostsDataSource
 import com.harrycampaz.redditapi.domain.repository.IPostsDataRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class PostsDataRepositoryImpl @Inject constructor(private val dataSource: IRemotePostsDataSource): IPostsDataRepository {
+class PostsDataRepositoryImpl(private val dataSource: IRemotePostsDataSource): IPostsDataRepository {
     override suspend fun getPostsTop(): Flow<Result<List<DataPostsEntity>>> =
         dataSource.getPostsTop()
 }

@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import java.lang.RuntimeException
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class RemotePostsDataSourceImpl @Inject constructor(private val api: PostsApi): IRemotePostsDataSource {
+class RemotePostsDataSourceImpl(private val api: PostsApi): IRemotePostsDataSource {
     override suspend fun getPostsTop():  Flow<Result<List<DataPostsEntity>>> {
         return flow {
             emit(Result.success(api.getPostsTop().data.children.toListEntity()))

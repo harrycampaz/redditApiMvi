@@ -87,10 +87,13 @@ object TestLibraries {
 }
 object DILibraries {
     object Versions {
-        const val hilt = "2.28-alpha"
+        const val hilt = "2.38.1"
+        const val koin = "3.1.4"
     }
 
     const val daggerHilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+    const val daggerHiltkapt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    const val koin = "io.insert-koin:koin-android:${Versions.koin}"
 }
 
 object LogTools {

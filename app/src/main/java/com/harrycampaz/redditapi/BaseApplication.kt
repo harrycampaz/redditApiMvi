@@ -1,9 +1,22 @@
 package com.harrycampaz.redditapi
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.harrycampaz.redditapi.di.appModules
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import timber.log.Timber
 
-@HiltAndroidApp
 class BaseApplication : Application() {
 
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
+        startKoin {
+            androidContext(this@BaseApplication)
+            modules(appModules)
+        }
+    }
 }
