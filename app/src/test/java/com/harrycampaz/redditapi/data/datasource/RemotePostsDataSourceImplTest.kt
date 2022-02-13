@@ -50,8 +50,7 @@ class RemotePostsDataSourceImplTest {
         dataSourceImpl = RemotePostsDataSourceImpl(api)
 
         // THEN
-        assertEquals("Some Error", dataSourceImpl.getPostsTop().first().exceptionOrNull()?.message)
-
+        assertTrue(dataSourceImpl.getPostsTop().first().isFailure)
     }
 
 }
