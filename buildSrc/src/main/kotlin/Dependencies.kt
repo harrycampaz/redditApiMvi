@@ -68,7 +68,7 @@ object TestLibraries {
     object Versions {
         const val jUnit = "4.13.2"
         const val androidJUnit = "1.1.3"
-        const val mockk = "1.10.2"
+        const val mockk = "1.10.0"
         const val coroutines = "1.5.0"
         const val truth = "1.1.2"
 

@@ -1,7 +1,9 @@
 package com.harrycampaz.redditapi.data.repository
 
+import com.harrycampaz.core.data.datasource.ILocalPostsDataSource
 import com.harrycampaz.core.data.models.DataPostsModel
 import com.harrycampaz.core.data.models.RedditPosts
+import com.harrycampaz.core.data.models.toListDb
 import com.harrycampaz.core.data.models.toListEntity
 import com.harrycampaz.core.domain.DataPostsEntity
 import com.harrycampaz.redditapi.data.datasource.IRemotePostsDataSource
@@ -20,48 +22,37 @@ import java.lang.RuntimeException
 class PostsDataRepositoryImplTest {
 
     private val exception = RuntimeException("Some error")
-
+    var restore = false
     private lateinit var repository: PostsDataRepositoryImpl
     private val remoteSource: IRemotePostsDataSource = mockk(relaxed = true)
+    private val localSource: ILocalPostsDataSource = mockk(relaxed =  true)
     private val redditPosts: RedditPosts = mockk(relaxed = true)
 
     @Before
     fun setup(){
-        repository = PostsDataRepositoryImpl(remoteSource)
+        repository = PostsDataRepositoryImpl(remoteSource, localSource)
     }
 
     @Test
-    fun`WHEN repository getPostsTop THEN  remoteSource exec`(): Unit = runBlocking {
+    fun`WHEN repository getPostsTop THEN  localSource exec`(): Unit = runBlocking {
 
-        coEvery { remoteSource.getPostsTop() } returns flow { emit(Result.success(redditPosts.data.children.toListEntity())) }
+        coEvery { localSource.getPostsTop() } returns redditPosts.data.children.toListDb()
 
-        repository.getPostsTop().first()
+        repository.getPostsTop(restore).first()
 
-        coVerify (atLeast = 1) { remoteSource.getPostsTop()  }
+        coVerify { localSource.getPostsTop()  }
 
     }
 
     @Test
-    fun `WHEN repository getPostsTop() THEN remoteSource return flow DataPosts Entity`(): Unit = runBlocking{
-        coEvery { remoteSource.getPostsTop() } returns flow { emit(Result.success(redditPosts.data.children.toListEntity())) }
+    fun `WHEN repository getPostsTop() THEN localSource return flow DataPosts Entity`(): Unit = runBlocking{
+        coEvery { localSource.getPostsTop() } returns redditPosts.data.children.toListDb()
 
-        assertTrue(repository.getPostsTop().first().isSuccess)
+        assertTrue(repository.getPostsTop(restore).first().isSuccess)
         assertEquals(
             Result.success(redditPosts.data.children.toListEntity()),
-            repository.getPostsTop().first()
+            repository.getPostsTop(restore).first()
         )
-    }
-
-    @Test
-    fun `WHEN repository getPostsTop() THEN remoteSource return exception`(): Unit = runBlocking{
-        coEvery { remoteSource.getPostsTop() } returns flow {
-            emit(Result.failure<List<DataPostsEntity>>(exception))
-        }
-
-        repository.getPostsTop()
-
-        assertTrue(repository.getPostsTop().first().isFailure)
-        assertEquals(exception, repository.getPostsTop().first().exceptionOrNull())
     }
 
 }

@@ -4,5 +4,7 @@ import com.harrycampaz.core.domain.DataPostsEntity
 import kotlinx.coroutines.flow.Flow
 
 interface IPostsDataRepository {
-    suspend fun getPostsTop(): Flow<Result<List<DataPostsEntity>>>
+    suspend fun getPostsTop(restore: Boolean): Flow<Result<List<DataPostsEntity>>>
+    suspend fun deleteAllPosts(): Int
+    suspend fun deleteItemPosts(postsEntity: DataPostsEntity): Int
 }

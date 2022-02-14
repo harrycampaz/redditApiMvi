@@ -2,10 +2,13 @@ package com.harrycampaz.redditapi.presentation.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.harrycampaz.redditapi.domain.usecase.DeleteAllPostsUseCase
+import com.harrycampaz.redditapi.domain.usecase.DeleteItemPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.GetDataPostsUseCase
 import com.harrycampaz.redditapi.presentation.home.intent.HomeAction
 import com.harrycampaz.redditapi.presentation.home.viewstate.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val useCase: GetDataPostsUseCase
+    private val getDataPostsUseCase: GetDataPostsUseCase,
+    private val deleteAllPosts: DeleteAllPostsUseCase,
+    private val deleteItemPostsUseCase: DeleteItemPostsUseCase
 ) : ViewModel() {
 
     val mainIntet = Channel<HomeAction>(Channel.UNLIMITED)
@@ -34,19 +39,25 @@ class HomeViewModel @Inject constructor(
     private fun handleIntent() {
         viewModelScope.launch {
             mainIntet.consumeAsFlow().collect { event ->
-                when(event){
+                when (event) {
                     is HomeAction.DeleteItem -> {
                         Timber.e("Delete one item")
                     }
                     HomeAction.DeleteAllItem -> {
-                        Timber.e("Delete all items")
+                        launch(Dispatchers.IO) {
+                            deleteAllPosts.invoke()
+                        }
                     }
                     HomeAction.LoadItem -> {
                         Timber.e("Loading possts")
-                        val data = useCase.invoke()
-                        data?.let {
-                            Timber.e("This is data $it")
+
+                        launch(Dispatchers.IO) {
+                            val data = getDataPostsUseCase.invoke(false)
+                            data?.let {
+                                Timber.e("This is data $it")
+                            }
                         }
+
                     }
                 }
             }

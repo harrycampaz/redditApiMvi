@@ -18,3 +18,12 @@ fun List<ChildrenModel>.toListEntity(): List<DataPostsEntity> =
     this.map {
         it.data.toEntity()
     }
+
+fun DataPostsModel.toDb() = DataPostsDb(
+    author_fullname = author_fullname, title = title, created_utc = created_utc, thumbnail =  thumbnail,  num_comments = num_comments
+)
+
+fun List<ChildrenModel>.toListDb(): List<DataPostsDb> =
+    this.map {
+        it.data.toDb()
+    }

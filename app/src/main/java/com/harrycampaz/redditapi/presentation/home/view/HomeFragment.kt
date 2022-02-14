@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.harrycampaz.redditapi.databinding.FragmentHomeBinding
 import com.harrycampaz.redditapi.presentation.home.intent.HomeAction
 import com.harrycampaz.redditapi.presentation.home.viewmodel.HomeViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,7 +35,7 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.Main) {
             viewModel.mainIntet.send(HomeAction.LoadItem)
         }
     }

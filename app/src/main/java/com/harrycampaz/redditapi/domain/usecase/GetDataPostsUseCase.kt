@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-class GetDataPostsUseCase @Inject constructor(
+class GetDataPostsUseCase(
     private val repository: IPostsDataRepository
 ) {
-    suspend fun invoke() : Result<List<DataPostsEntity>>? {
-        return repository.getPostsTop().firstOrNull()
+    suspend fun invoke(restore: Boolean) : Result<List<DataPostsEntity>>? {
+        return repository.getPostsTop(restore).firstOrNull()
     }
 }
