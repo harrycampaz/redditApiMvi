@@ -14,3 +14,7 @@ data class DataPostsVO(
 fun DataPostsEntity.toViewObject() = DataPostsVO(
     author_fullname, title, created_utc, thumbnail, num_comments
 )
+
+fun List<DataPostsEntity>.toListViewObject() = this.map {
+    it.toViewObject()
+}

@@ -21,7 +21,6 @@ import java.lang.RuntimeException
 
 class PostsDataRepositoryImplTest {
 
-    private val exception = RuntimeException("Some error")
     var restore = false
     private lateinit var repository: PostsDataRepositoryImpl
     private val remoteSource: IRemotePostsDataSource = mockk(relaxed = true)
@@ -54,5 +53,4 @@ class PostsDataRepositoryImplTest {
             repository.getPostsTop(restore).first()
         )
     }
-
 }

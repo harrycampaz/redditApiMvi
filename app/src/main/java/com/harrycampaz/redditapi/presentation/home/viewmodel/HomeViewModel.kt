@@ -2,6 +2,7 @@ package com.harrycampaz.redditapi.presentation.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.harrycampaz.core.presentation.toListViewObject
 import com.harrycampaz.redditapi.domain.usecase.DeleteAllPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.DeleteItemPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.GetDataPostsUseCase
@@ -47,17 +48,17 @@ class HomeViewModel @Inject constructor(
                         launch(Dispatchers.IO) {
                             deleteAllPosts.invoke()
                         }
+                        _mainState.value = HomeState.AllItemDeleted
                     }
                     HomeAction.LoadItem -> {
-                        Timber.e("Loading possts")
-
                         launch(Dispatchers.IO) {
-                            val data = getDataPostsUseCase.invoke(false)
+                            val data = getDataPostsUseCase.invoke(true)
                             data?.let {
-                                Timber.e("This is data $it")
+                                it.getOrNull()?.let { list ->
+                                    _mainState.value = HomeState.LoadDataPosts(list.toListViewObject())
+                                }
                             }
                         }
-
                     }
                 }
             }
