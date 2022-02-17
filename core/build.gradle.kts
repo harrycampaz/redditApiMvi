@@ -50,6 +50,8 @@ dependencies {
 
     // Test
     testImplementation(TestLibraries.jUnit)
+    testImplementation (TestLibraries.mockk)
 
     implementation(LogTools.timber)
+
 }

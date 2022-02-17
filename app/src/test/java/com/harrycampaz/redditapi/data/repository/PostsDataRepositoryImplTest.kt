@@ -1,12 +1,10 @@
 package com.harrycampaz.redditapi.data.repository
 
 import com.harrycampaz.core.data.datasource.ILocalPostsDataSource
-import com.harrycampaz.core.data.models.DataPostsModel
-import com.harrycampaz.core.data.models.RedditPosts
-import com.harrycampaz.core.data.models.toListDb
-import com.harrycampaz.core.data.models.toListEntity
+import com.harrycampaz.core.data.models.*
 import com.harrycampaz.core.domain.DataPostsEntity
 import com.harrycampaz.redditapi.data.datasource.IRemotePostsDataSource
+import com.harrycampaz.redditapi.utils.getFakeDataPostsModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -52,5 +50,34 @@ class PostsDataRepositoryImplTest {
             Result.success(redditPosts.data.children.toListEntity()),
             repository.getPostsTop(restore).first()
         )
+    }
+
+    @Test
+    fun`WHEN repository deleteAllPosts THEN  deleteAllItemDataPosts exec`(): Unit = runBlocking {
+
+
+        repository.deleteAllPosts()
+
+        coVerify { localSource.deleteAllItemDataPosts()  }
+    }
+
+    @Test
+    fun`WHEN repository deleteItemPosts THEN  deleteItemDataPosts exec`(): Unit = runBlocking {
+
+        val dataPostsModel = getFakeDataPostsModel()
+
+        repository.deleteItemPosts(dataPostsModel.toEntity())
+
+        coVerify { localSource.deleteItemDataPosts(dataPostsModel.toDb())  }
+    }
+
+    @Test
+    fun`WHEN repository updatePosts THEN  updatePosts exec`(): Unit = runBlocking {
+
+        val dataPostsModel = getFakeDataPostsModel()
+
+        repository.updatePosts(dataPostsModel.toEntity())
+
+        coVerify { localSource.updatePosts(dataPostsModel.toDb())  }
     }
 }
