@@ -21,4 +21,6 @@ interface DataPostsDao {
     @Query("DELETE FROM `data-posts`")
     suspend fun deleteAllItem(): Int
 
+    @Query("UPDATE `data-posts` SET status = :value WHERE title == :title")
+    suspend fun updateItem(title: String, value: Boolean): Int
 }

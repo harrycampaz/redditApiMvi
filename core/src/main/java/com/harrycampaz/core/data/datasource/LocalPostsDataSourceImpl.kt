@@ -19,4 +19,8 @@ class LocalPostsDataSourceImpl(private val databaseHelper: DatabaseHelper): ILoc
     override suspend fun deleteAllItemDataPosts(): Int {
         return databaseHelper.postDao().deleteAllItem()
     }
+
+    override suspend fun updatePosts(post: DataPostsDb): Int {
+        return databaseHelper.postDao().updateItem(post.title, true)
+    }
 }

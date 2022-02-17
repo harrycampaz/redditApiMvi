@@ -8,4 +8,5 @@ interface ILocalPostsDataSource {
     suspend fun getPostsTop(): List<DataPostsDb>
     suspend fun deleteItemDataPosts(post: DataPostsDb): Int
     suspend fun deleteAllItemDataPosts(): Int
+    suspend fun updatePosts(post: DataPostsDb): Int
 }

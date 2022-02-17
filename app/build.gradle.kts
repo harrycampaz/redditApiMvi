@@ -6,6 +6,7 @@ plugins {
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
+    id("kotlin-android")
 }
 
 android {
@@ -101,4 +102,6 @@ dependencies {
     implementation(ThirdLibraries.gson)
     implementation(ThirdLibraries.retrofit)
     implementation(ThirdLibraries.okhttp3)
+
+    implementation(ThirdLibraries.glide)
 }

@@ -39,6 +39,7 @@ object AndroidLibraries {
     const val playCore = "com.google.android.play:core:${Versions.playCore}"
 
     const val playCoreKtx = "com.google.android.play:core-ktx:${Versions.playCoreKtx}"
+    const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
 
 }
 

@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Application</string>
     <string name="clear_all">Clear All</string>
+    <string name="dismiss_post">Dismiss Post</string>
 </resources>

@@ -37,4 +37,8 @@ class PostsDataRepositoryImpl(
         return localSource.deleteItemDataPosts(postsEntity.toDb())
     }
 
+    override suspend fun updatePosts(post: DataPostsEntity): Int {
+        return localSource.updatePosts(post.toDb())
+    }
+
 }

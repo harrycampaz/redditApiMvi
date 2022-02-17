@@ -8,11 +8,14 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.harrycampaz.core.presentation.DataPostsVO
 import com.harrycampaz.redditapi.databinding.FragmentHomeBinding
 import com.harrycampaz.redditapi.presentation.home.intent.HomeAction
+import com.harrycampaz.redditapi.presentation.home.listener.OnClickItemListener
+import com.harrycampaz.redditapi.presentation.home.listener.OnDismissItemListener
 import com.harrycampaz.redditapi.presentation.home.view.adapter.PostsAdapter
 import com.harrycampaz.redditapi.presentation.home.viewmodel.HomeViewModel
 import com.harrycampaz.redditapi.presentation.home.viewstate.HomeState
@@ -20,9 +23,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 
-class HomeFragment: Fragment() {
+class HomeFragment: Fragment(), OnDismissItemListener {
 
     private val viewModel: HomeViewModel by  viewModel()
     private var _binding: FragmentHomeBinding? = null
@@ -39,11 +43,7 @@ class HomeFragment: Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container,false).also {
             setupView(it)
         }
-
-
-
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +67,7 @@ class HomeFragment: Fragment() {
                     }
                     HomeState.AllItemDeleted -> {
                         postsAdapter.differ.submitList(listOf())
-                        Toast.makeText(context, "All item Deleted", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "All item Deleted", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -75,7 +75,11 @@ class HomeFragment: Fragment() {
     }
 
     private fun setupView(homeBinding: FragmentHomeBinding) {
-      postsAdapter = PostsAdapter()
+        context?.let {
+            postsAdapter = PostsAdapter(it, this){
+                Timber.e("Click en item")
+            }
+        }
         homeBinding.rvPosts.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postsAdapter
@@ -86,9 +90,14 @@ class HomeFragment: Fragment() {
                 viewModel.mainIntet.send(HomeAction.DeleteAllItem)
             }
         }
+
+        homeBinding.sRefresh.setOnRefreshListener {
+            lifecycleScope.launch(Dispatchers.Main) {
+                viewModel.mainIntet.send(HomeAction.LoadItem)
+                homeBinding.sRefresh.isRefreshing = false
+            }
+        }
     }
-
-
 
     private fun showLoading(){
         binding.pbHome.isVisible = true
@@ -100,9 +109,15 @@ class HomeFragment: Fragment() {
         binding.llContent.isVisible = true
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDismissItemListener(dataPostsVO: DataPostsVO, position: Int) {
+        lifecycleScope.launch {
+            viewModel.mainIntet.send(HomeAction.DeleteItem(dataPostsVO))
+            postsAdapter.notifyItemRemoved(position)
+        }
     }
 }

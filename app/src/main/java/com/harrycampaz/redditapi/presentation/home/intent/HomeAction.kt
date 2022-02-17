@@ -1,9 +1,9 @@
 package com.harrycampaz.redditapi.presentation.home.intent
 
-import com.harrycampaz.core.domain.DataPostsEntity
+import com.harrycampaz.core.presentation.DataPostsVO
 
 sealed class HomeAction {
     object LoadItem: HomeAction()
     object DeleteAllItem: HomeAction()
-    data class DeleteItem(val postsEntity: DataPostsEntity): HomeAction()
+    data class DeleteItem(val postsVO: DataPostsVO): HomeAction()
 }

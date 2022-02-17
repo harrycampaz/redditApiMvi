@@ -2,6 +2,7 @@ package com.harrycampaz.redditapi.presentation.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.harrycampaz.core.presentation.toEntity
 import com.harrycampaz.core.presentation.toListViewObject
 import com.harrycampaz.redditapi.domain.usecase.DeleteAllPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.DeleteItemPostsUseCase
@@ -42,7 +43,8 @@ class HomeViewModel @Inject constructor(
             mainIntet.consumeAsFlow().collect { event ->
                 when (event) {
                     is HomeAction.DeleteItem -> {
-                        Timber.e("Delete one item")
+                        deleteItemPostsUseCase.invoke(event.postsVO.toEntity())
+
                     }
                     HomeAction.DeleteAllItem -> {
                         launch(Dispatchers.IO) {
