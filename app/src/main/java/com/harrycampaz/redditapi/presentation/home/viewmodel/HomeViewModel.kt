@@ -7,6 +7,7 @@ import com.harrycampaz.core.presentation.toListViewObject
 import com.harrycampaz.redditapi.domain.usecase.DeleteAllPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.DeleteItemPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.GetDataPostsUseCase
+import com.harrycampaz.redditapi.domain.usecase.UpdateItemPostUseCase
 import com.harrycampaz.redditapi.presentation.home.intent.HomeAction
 import com.harrycampaz.redditapi.presentation.home.viewstate.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getDataPostsUseCase: GetDataPostsUseCase,
     private val deleteAllPosts: DeleteAllPostsUseCase,
-    private val deleteItemPostsUseCase: DeleteItemPostsUseCase
+    private val deleteItemPostsUseCase: DeleteItemPostsUseCase,
+    private val updateItemPostUseCase: UpdateItemPostUseCase
 ) : ViewModel() {
 
     val mainIntet = Channel<HomeAction>(Channel.UNLIMITED)
@@ -61,6 +63,9 @@ class HomeViewModel @Inject constructor(
                                 }
                             }
                         }
+                    }
+                    is HomeAction.UpdateItem -> {
+                        updateItemPostUseCase.invoke(event.postsVO.toEntity())
                     }
                 }
             }

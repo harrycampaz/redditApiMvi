@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,8 +77,12 @@ class HomeFragment: Fragment(), OnDismissItemListener {
 
     private fun setupView(homeBinding: FragmentHomeBinding) {
         context?.let {
-            postsAdapter = PostsAdapter(it, this){
-                Timber.e("Click en item")
+            postsAdapter = PostsAdapter(it, this){dataPosts ->
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(dataPosts)
+                findNavController().navigate(action)
+                lifecycleScope.launch {
+                    viewModel.mainIntet.send(HomeAction.UpdateItem(dataPosts))
+                }
             }
         }
         homeBinding.rvPosts.apply {

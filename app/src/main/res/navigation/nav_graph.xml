@@ -13,7 +13,7 @@
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/detailsFragment"
         android:name="com.harrycampaz.redditapi.presentation.details.DetailsFragment"
         android:label="details_fragment"
@@ -21,5 +21,5 @@
         <argument
             android:name="dataPostsVO"
             app:argType="com.harrycampaz.core.presentation.DataPostsVO" />
-    </fragment>
+    </dialog>
 </navigation>

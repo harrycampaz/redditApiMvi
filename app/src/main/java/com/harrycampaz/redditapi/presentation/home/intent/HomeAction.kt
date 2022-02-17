@@ -6,4 +6,5 @@ sealed class HomeAction {
     object LoadItem: HomeAction()
     object DeleteAllItem: HomeAction()
     data class DeleteItem(val postsVO: DataPostsVO): HomeAction()
+    data class UpdateItem(val postsVO: DataPostsVO): HomeAction()
 }

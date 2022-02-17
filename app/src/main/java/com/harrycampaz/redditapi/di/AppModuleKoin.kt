@@ -12,6 +12,7 @@ import com.harrycampaz.redditapi.domain.repository.IPostsDataRepository
 import com.harrycampaz.redditapi.domain.usecase.DeleteAllPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.DeleteItemPostsUseCase
 import com.harrycampaz.redditapi.domain.usecase.GetDataPostsUseCase
+import com.harrycampaz.redditapi.domain.usecase.UpdateItemPostUseCase
 import com.harrycampaz.redditapi.presentation.home.viewmodel.HomeViewModel
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -38,8 +39,9 @@ val appModules = module {
     single { GetDataPostsUseCase(get()) }
     single { DeleteAllPostsUseCase(get()) }
     single { DeleteItemPostsUseCase(get()) }
+    single { UpdateItemPostUseCase(get()) }
 
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get()) }
 }
 
 fun providePostsApi(retrofit: Retrofit): PostsApi =

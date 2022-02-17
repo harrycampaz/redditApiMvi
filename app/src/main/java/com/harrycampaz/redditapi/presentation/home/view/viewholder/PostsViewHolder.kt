@@ -28,6 +28,7 @@ class PostsViewHolder(private val postsItemHolderBinding: PostsItemHolderBinding
         }
 
         postsItemHolderBinding.root.setOnClickListener {
+            postsItemHolderBinding.clItem.setBackgroundColor(context.resources.getColor(R.color.purple_700))
             onClick.invoke(postsVO)
         }
 
