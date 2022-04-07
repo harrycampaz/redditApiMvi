@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
                 when (event) {
                     is HomeAction.DeleteItem -> {
                         deleteItemPostsUseCase.invoke(event.postsVO.toEntity())
-
+                        _mainState.value = HomeState.DeleteItemSuccess
                     }
                     HomeAction.DeleteAllItem -> {
                         launch(Dispatchers.IO) {
